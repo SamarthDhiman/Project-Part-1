@@ -30,8 +30,13 @@ def run2():
         imgnp=np.array(bytearray(img_resp.read()),dtype=np.uint8)
         im = cv2.imdecode(imgnp,-1)
  
-        bbox, label, conf = cv.detect_common_objects(im)
+        bbox = cv.detect_common_objects(im)
         im = draw_bbox(im, bbox, label, conf)
+
+        if 'person' in label:
+            GPIO.output(buzzer_pin, GPIO.HIGH)
+        else:
+            GPIO.output(buzzer_pin, GPIO.LOW)
  
         cv2.imshow('detection',im)
         key=cv2.waitKey(5)
